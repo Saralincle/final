@@ -1,0 +1,54 @@
+test1=imread('test1.tif');
+test1=test1(:,:,1);
+test2=imread('test2.png');
+test3=imread('test3.jpg');
+test4=imread('test4.bmp');
+test5=imread('test5.png');
+test6=imread('test6.jpg');
+
+
+
+%%%%%%%%%lab7%%%%%%%%%%%
+function []=line_detect(test_im)
+
+S_1=edge(test_im,'sobel');
+figure;
+imshow(S_1);title('sobelËã×Ó');
+
+hold on
+[H,T,R]=hough(S_1,'Theta',-90:0.5:89);
+P=houghpeaks(H,25);
+lines=houghlines(test_im,T,R,P);
+for k=1:length(lines)
+
+    xy=[lines(k).point1;lines(k).point2];
+    plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+end
+
+C_1=edge(test_im,'canny');
+figure;
+imshow(C_1);title('cannyËã·¨');
+
+hold on
+[H,T,R]=hough(C_1,'Theta',-90:0.5:89);
+P=houghpeaks(H,25);
+lines=houghlines(test_im,T,R,P);
+for k=1:length(lines)
+
+    xy=[lines(k).point1;lines(k).point2];
+    plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+end
+
+P_1=edge(test_im,'roberts');
+figure;
+imshow(P_1);title('robertsËã·¨');
+
+hold on
+[H,T,R]=hough(P_1,'Theta',-90:0.5:89);
+P=houghpeaks(H,25);
+lines=houghlines(test_im,T,R,P);
+for k=1:length(lines)
+
+    xy=[lines(k).point1;lines(k).point2];
+    plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+end
